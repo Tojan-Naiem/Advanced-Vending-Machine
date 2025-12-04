@@ -1,4 +1,4 @@
-namespace Advanced_Vending_Machine
+namespace VendingMachine.PL
 {
     public class WeatherForecast
     {

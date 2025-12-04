@@ -8,5 +8,6 @@ namespace VendingMachine.DAL.Utils
 {
     public interface ISeedData
     {
+        public Task DataSeedingAsync();
     }
 }

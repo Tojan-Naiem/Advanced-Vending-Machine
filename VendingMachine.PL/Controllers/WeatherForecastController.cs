@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Advanced_Vending_Machine.Controllers
+namespace VendingMachine.PL.Controllers
 {
     [ApiController]
     [Route("[controller]")]
