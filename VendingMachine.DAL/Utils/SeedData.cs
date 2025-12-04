@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VendingMachine.DAL.Utils
 {
-    public class SeedData:ISeedData
+    public class SeedData : ISeedData
     {
         private readonly ApplicationDbContext _dbContext;
         public SeedData(
@@ -21,6 +21,7 @@ namespace VendingMachine.DAL.Utils
 
         public async Task DataSeedingAsync()
         {
-           
+
         }
+    }
 }
