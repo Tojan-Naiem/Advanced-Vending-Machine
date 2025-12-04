@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine.DAL.Utils
 {
-    internal class SeedData
+    public class SeedData:ISeedData
     {
     }
 }
