@@ -1,4 +1,4 @@
-﻿namespace AdvancedVendingMachine.BLL
+﻿namespace VendingMachine.DLL
 {
     public class Class1
     {
