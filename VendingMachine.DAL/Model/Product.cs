@@ -8,5 +8,9 @@ namespace VendingMachine.DAL.Model
 {
     public class Product:BaseModel
     {
+        public string Name { get; set; } = string.Empty;
+        public string MainImage { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
     }
 }
