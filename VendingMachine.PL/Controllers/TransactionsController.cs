@@ -7,7 +7,7 @@ using VendingMachine.DAL.DTO.RequestDTO;
 
 namespace VendingMachine.PL.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
     {
@@ -22,13 +22,13 @@ namespace VendingMachine.PL.Controllers
             var result = await _transactionService.CreateTransactionAsync(request);
             return result ? Ok("Done") : BadRequest();
         }
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] long id)
         {
             var result = await _transactionService.GetTransactionAsync(id);
             return Ok(result);
         }
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] long id)
         {
             var result = await _transactionService.DeleteTransactionAsync(id);

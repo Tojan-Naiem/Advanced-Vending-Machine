@@ -31,7 +31,9 @@ namespace VendingMachine.DAL.Repository.Classes
         }
         public async Task<Transaction?> GetTransactionAsync(long id)
         {
-            return await _dbContext.Transactions.FindAsync(id);
+            return await _dbContext.Transactions
+                 .Include(t => t.Product)
+                 .FirstOrDefaultAsync(t => t.Id == id);
         }
         public async Task RemoveAsync(Transaction request)
         {
