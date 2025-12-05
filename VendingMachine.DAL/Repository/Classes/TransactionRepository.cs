@@ -25,11 +25,11 @@ namespace VendingMachine.DAL.Repository.Classes
             await _dbContext.SaveChangesAsync();
 
         }
-        public async Task<List<Transaction>> GetProductsAsync()
+        public async Task<List<Transaction>> GetTransactionsAsync()
         {
             return await _dbContext.Transactions.ToListAsync();
         }
-        public async Task<Transaction?> GetProductAsync(long id)
+        public async Task<Transaction?> GetTransactionAsync(long id)
         {
             return await _dbContext.Transactions.FindAsync(id);
         }
