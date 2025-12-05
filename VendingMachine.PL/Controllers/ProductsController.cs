@@ -46,7 +46,7 @@ namespace VendingMachine.PL.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Update([FromRoute] long id, [FromBody] ProductRequest productRequest)
+        public async Task<IActionResult> Update([FromRoute] long id, [FromForm] ProductRequest productRequest)
         {
             bool isExist = await _productService.UpdateProductAsync(id, productRequest);
             if (isExist is false) return NotFound(new { message = "Not found" });
