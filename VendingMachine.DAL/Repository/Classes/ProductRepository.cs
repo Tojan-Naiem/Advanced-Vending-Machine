@@ -39,5 +39,10 @@ namespace VendingMachine.DAL.Repository.Classes
              _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task SaveChangesInDatabase()
+        {
+            await _dbContext.SaveChangesAsync();
+
+        }
     }
 }
