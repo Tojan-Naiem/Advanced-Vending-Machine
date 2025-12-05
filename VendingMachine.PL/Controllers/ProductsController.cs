@@ -26,8 +26,8 @@ namespace VendingMachine.PL.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<List<ProductResponse>>> GetAll()
         {
-            var productsDto = await _productService.GetAllAsync();
-            return Ok(new { productsDto });
+            var products = await _productService.GetAllAsync();
+            return Ok(new { products });
 
         }
         [HttpGet("{id}")]
