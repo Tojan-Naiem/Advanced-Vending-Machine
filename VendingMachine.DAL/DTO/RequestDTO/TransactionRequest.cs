@@ -8,6 +8,6 @@ namespace VendingMachine.DAL.DTO.RequestDTO
 {
     public class TransactionRequest
     {
-        public long Id { get; set; }
+        public long ProductId { get; set; }
     }
 }
