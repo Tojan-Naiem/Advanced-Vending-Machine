@@ -56,18 +56,19 @@ namespace VendingMachine.BLL.Service.Classes
             await _productRepository.SaveChangesInDatabase();
             return true;
         }
-        public async Task<List<ProductResponse>> GetAll()
+        public async Task<List<ProductResponse>> GetAllAsync()
         {
             var entities = await _productRepository.GetProductsAsync();
 
             return entities.Adapt<List<ProductResponse>>();
         }
-        public async Task<ProductResponse?> GetById(long id)
+    
+        public async Task<ProductResponse?> GetByIdAsync(long id)
         {
             var entity =await _productRepository.GetProductAsync(id);
             return entity is null ? null : entity.Adapt<ProductResponse>();
         }
-        public async Task<bool> ToggleStatus(long id)
+        public async Task<bool> ToggleStatusAsync(long id)
         {
             var entity = await _productRepository.GetProductAsync(id);
             if (entity is null) return false;
@@ -76,5 +77,8 @@ namespace VendingMachine.BLL.Service.Classes
             return true;
         }
 
+    
+
+     
     }
 }
