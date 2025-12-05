@@ -18,6 +18,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddScoped<IFileService,FileService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ISeedData, SeedData>();
 
 // Add services to the container.
