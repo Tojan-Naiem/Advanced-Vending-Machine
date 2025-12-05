@@ -22,5 +22,18 @@ namespace VendingMachine.PL.Controllers
             var result = await _transactionService.CreateTransactionAsync(request);
             return result ? Ok("Done") : BadRequest();
         }
+        [HttpGet("/{id}")]
+        public async Task<IActionResult> Get([FromRoute] long id)
+        {
+            var result = await _transactionService.GetTransactionAsync(id);
+            return Ok(result);
+        }
+        [HttpDelete("/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] long id)
+        {
+            var result = await _transactionService.DeleteTransactionAsync(id);
+            return Ok(result);
+        }
+
     }
 }
