@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using VendingMachine.BLL.Service.Classes;
 using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.Data;
@@ -9,8 +10,11 @@ using VendingMachine.DAL.Utils;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis"); 
+    options.InstanceName = "VendingMachine_"; 
+});
 builder.Services.AddScoped<IFileService,FileService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
