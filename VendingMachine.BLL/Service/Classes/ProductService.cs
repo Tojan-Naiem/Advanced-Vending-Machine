@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Azure.Core;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -46,8 +47,18 @@ namespace VendingMachine.BLL.Service.Classes
             await _productRepository.RemoveAsync(entity);
             return true;
         }
-        
-    
+        public async Task<bool> UpdateProductAsync(long id,ProductRequest request)
+        {
+            var entity = _productRepository.GetProductAsync(id);
+            if (entity is null) return false;
+            var updatedEntity = request.Adapt(entity);
+            await _productRepository.SaveChangesInDatabase();
+            return true;
 
-}
+
+        }
+
+
+
+    }
 }

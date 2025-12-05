@@ -11,5 +11,6 @@ namespace VendingMachine.BLL.Service.Interfaces
     {
         public Task<long> CreateFile(ProductRequest request);
         public Task<bool> DeleteFile(long id);
+        public Task<bool> UpdateProductAsync(long id, ProductRequest request);
     }
 }
