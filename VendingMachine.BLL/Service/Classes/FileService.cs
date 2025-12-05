@@ -15,7 +15,7 @@ namespace VendingMachine.BLL.Service.Classes
             if (file != null && file.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", fileName);
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await file.CopyToAsync(stream);
