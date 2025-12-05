@@ -16,7 +16,7 @@ namespace VendingMachine.BLL.Service.Classes
         {
             _transactionRepository = transactionRepository;
         }
-        public async Task<bool> CreateTransaction(TransactionRequest request)
+        public async Task<bool> CreateTransactionAsync(TransactionRequest request)
         {
             var newItem = new Transaction()
             {
@@ -27,6 +27,17 @@ namespace VendingMachine.BLL.Service.Classes
              await  _transactionRepository.SaveAsync(newItem);
             return true;
 
+        }
+
+        public async Task<bool> DeleteTransactionAsync(long transactionId)
+        {
+            var item = await _transactionRepository.GetTransactionAsync(transactionId);
+            if(item is null)
+            {
+                return false;
+            }
+             await _transactionRepository.RemoveAsync(item);
+            return true;
         }
     }
 }
