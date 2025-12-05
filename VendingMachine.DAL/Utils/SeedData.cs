@@ -29,8 +29,41 @@ namespace VendingMachine.DAL.Utils
             if (!await _dbContext.Products.AnyAsync())
             {
                 await _dbContext.Products.AddRangeAsync(
-                    new Product { Name = "Clothes" },
-                    new Product { Name = "Phones" }
+                   new Product
+                   {
+                       Name = "Vanilla Ice Cream",
+                       Price = 5.0m,
+                       Quantity = 50,
+                       MainImage = string.Empty
+                   },
+                   new Product
+                   {
+                       Name = "Chocolate Ice Cream",
+                       Price = 5.5m,
+                       Quantity = 60,
+                       MainImage = string.Empty
+                   },
+                   new Product
+                   {
+                       Name = "Strawberry Ice Cream",
+                       Price = 6.0m,
+                       Quantity = 40,
+                       MainImage = string.Empty
+                   },
+                   new Product
+                   {
+                       Name = "Mint Ice Cream",
+                       Price = 5.75m,
+                       Quantity = 30,
+                       MainImage = string.Empty
+                   },
+                   new Product
+                   {
+                       Name = "Cookie Dough Ice Cream",
+                       Price = 6.5m,
+                       Quantity = 20,
+                       MainImage = string.Empty
+                   }
                     );
             }
             await _dbContext.SaveChangesAsync();
