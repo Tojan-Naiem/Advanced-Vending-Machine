@@ -15,6 +15,6 @@ namespace VendingMachine.DAL.DTO.ResponseDTO
         public int Quantity { get; set; }
         [JsonIgnore]
         public string MainImage { get; set; } = string.Empty;
-        public string MainImageUrl => $"https://localhost:7039/Images/{MainImage}";
+        public string MainImageUrl => $"https://localhost:7259/Images/{MainImage}";
     }
 }
