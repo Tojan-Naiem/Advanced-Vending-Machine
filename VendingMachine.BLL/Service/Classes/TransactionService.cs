@@ -7,6 +7,7 @@ using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.DTO.RequestDTO;
 using VendingMachine.DAL.Repository.Interfaces;
 using VendingMachine.DAL.Model;
+using VendingMachine.DAL.DTO.ResponseDTO;
 namespace VendingMachine.BLL.Service.Classes
 {
     public class TransactionService : ITransactionService
@@ -38,6 +39,17 @@ namespace VendingMachine.BLL.Service.Classes
             }
              await _transactionRepository.RemoveAsync(item);
             return true;
+        }
+        public async Task<TransactionResponse> GetTransactionAsync(long transactionId)
+        {
+            var item = await _transactionRepository.GetTransactionAsync(transactionId);
+            return new TransactionResponse()
+            {
+                CreatedTime=item!.CreatedTime,
+                PaymentMethod=item.PaymentMethod,
+                Name=item.Product.Name,
+                Price=item.Product.Price
+            };
         }
     }
 }
