@@ -22,4 +22,8 @@
     <ProjectReference Include="..\VendingMachine.DLL\VendingMachine.DLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

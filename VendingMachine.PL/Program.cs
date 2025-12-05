@@ -38,6 +38,7 @@ var objectOfSeedData = scope.ServiceProvider.GetRequiredService<ISeedData>();
 await objectOfSeedData.DataSeedingAsync();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
