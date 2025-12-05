@@ -15,5 +15,6 @@ namespace VendingMachine.BLL.Service.Interfaces
         public Task<bool> UpdateProductAsync(long id, ProductRequest request);
         public Task<List<ProductResponse>> GetAll();
         public ProductResponse? GetById(long id);
+        public Task<bool> ToggleStatus(long id);
     }
 }

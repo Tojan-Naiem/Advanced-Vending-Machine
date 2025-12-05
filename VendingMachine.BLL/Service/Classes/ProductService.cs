@@ -67,6 +67,14 @@ namespace VendingMachine.BLL.Service.Classes
             var entity =await _productRepository.GetProductAsync(id);
             return entity is null ? null : entity.Adapt<ProductResponse>();
         }
+        public async Task<bool> ToggleStatus(long id)
+        {
+            var entity = await _productRepository.GetProductAsync(id);
+            if (entity is null) return false;
+            entity.Status = (entity.Status == Status.Active) ? Status.In_Active : Status.Active;
+            await _productRepository.SaveChangesInDatabase();
+            return true;
+        }
 
     }
 }
