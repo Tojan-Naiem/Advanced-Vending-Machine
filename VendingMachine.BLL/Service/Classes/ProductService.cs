@@ -2,10 +2,12 @@
 using Azure.Core;
 using Mapster;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.DTO.RequestDTO;
@@ -20,13 +22,18 @@ namespace VendingMachine.BLL.Service.Classes
     {
         private readonly IFileService _fileService;
         private readonly IProductRepository _productRepository;
+        private readonly IDistributedCache _cache;
+
         public ProductService(
             IProductRepository productRepository,
-            IFileService fileService
+            IFileService fileService,
+             IDistributedCache cache
             ) 
         {
             _productRepository = productRepository;
             _fileService = fileService;
+            _cache = cache;
+
         }
         public async Task<long> CreateFile(ProductRequest request)
         {
@@ -70,7 +77,19 @@ namespace VendingMachine.BLL.Service.Classes
         }
         public async Task<List<ProductResponse>> GetAllAsync()
         {
+            var cacheKey = "all_products";
+            var cachedData = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cachedData))
+            {
+                Console.WriteLine("Hello from redis");
+                return JsonSerializer.Deserialize<List<ProductResponse>>(cachedData)!;
+            }
             var entities = await _productRepository.GetProductsAsync();
+
+            var options = new DistributedCacheEntryOptions()
+          .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+            await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(entities), options);
+
 
             return entities.Adapt<List<ProductResponse>>();
         }
