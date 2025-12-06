@@ -88,6 +88,7 @@ namespace VendingMachine.BLL.Service.Classes
                                 },
                                 UnitAmount = (long)item.Product.Price,
                             },
+                            Quantity=1
                         }
                         );
                 
