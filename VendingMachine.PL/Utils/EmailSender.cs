@@ -14,19 +14,25 @@ namespace VendingMachine.PL.Utils
         }
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var client = new SmtpClient("smtp.gmail.com", 587)
+            var host = _configuration["SmtpSettings:Host"];
+            var port = int.Parse(_configuration["SmtpSettings:Port"]);
+            var enableSsl = bool.Parse(_configuration["SmtpSettings:EnableSsl"]);
+            var smtpEmail = _configuration["SmtpSettings:Email"];
+            var password = _configuration["SmtpSettings:Password"];
+
+
+            var client = new SmtpClient(host, port)
             {
-                EnableSsl = true,
+                EnableSsl = enableSsl,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("tojan050@gmail.com", "jcyl dfoq utwz ulwp")
+                Credentials = new NetworkCredential(smtpEmail, password)
             };
 
             return client.SendMailAsync(
-                new MailMessage(from: "tojan050@gmail.com",
+                new MailMessage(from: smtpEmail,
                                 to: email,
                                 subject,
-                                htmlMessage
-                                )
+                                htmlMessage)
                 { IsBodyHtml = true });
         }
     }
