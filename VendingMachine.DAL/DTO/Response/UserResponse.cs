@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendingMachine.DAL.Utils
+namespace VendingMachine.DAL.DTO.Response
 {
-    public interface ISeedData
+    public class UserResponse
     {
-        Task IdentityDataSeedingAsync();
+        public string Token { get; set; }
     }
 }
