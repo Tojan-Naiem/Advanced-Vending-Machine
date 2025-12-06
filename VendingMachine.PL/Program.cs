@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using VendingMachine.BLL.Service.Classes;
@@ -7,6 +8,7 @@ using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Repository.Classes;
 using VendingMachine.DAL.Repository.Interfaces;
 using VendingMachine.DAL.Utils;
+using VendingMachine.PL.Utils;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ISeedData, SeedData>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<ICheckOutService, CheckOutService>();
 
 // Add services to the container.
 
