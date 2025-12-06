@@ -37,6 +37,7 @@ namespace VendingMachine.BLL.Service.Classes
         }
         public async Task<long> CreateFile(ProductRequest request)
         {
+            Console.WriteLine(request.MainImage == null ? "it's null" : "Not null");
             var entity = request.Adapt<Product>();
             if (request.MainImage is not null)
             {
