@@ -20,7 +20,7 @@ namespace VendingMachine.PL.Controllers
         public async Task<IActionResult> Add([FromBody] TransactionRequest request)
         {
             var result = await _transactionService.CreateTransactionAsync(request);
-            return result ? Ok("Done") : BadRequest();
+            return  Ok(result);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] long id)
