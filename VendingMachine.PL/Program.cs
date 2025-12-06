@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using Stripe;
 using VendingMachine.BLL.Service.Classes;
 using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.Data;
+using VendingMachine.DAL.Model;
 using VendingMachine.DAL.Repository.Classes;
 using VendingMachine.DAL.Repository.Interfaces;
 using VendingMachine.DAL.Utils;
@@ -17,9 +19,9 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis"); 
     options.InstanceName = "VendingMachine_"; 
 });
-builder.Services.AddScoped<IFileService,FileService>();
+builder.Services.AddScoped<IFileService,VendingMachine.BLL.Service.Classes.FileService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductService, VendingMachine.BLL.Service.Classes.ProductService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ISeedData, SeedData>();
@@ -36,6 +38,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
 
     ));
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
