@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine.BLL.Service.Classes
 {
-    internal class CheckOutService
+    public class CheckOutService
     {
     }
 }
