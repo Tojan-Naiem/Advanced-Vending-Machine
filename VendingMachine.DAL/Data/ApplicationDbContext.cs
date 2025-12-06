@@ -13,6 +13,8 @@ namespace VendingMachine.DAL.Data
     public class ApplicationDbContext : IdentityDbContext<Users>
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
