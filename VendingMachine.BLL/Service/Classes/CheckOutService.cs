@@ -40,10 +40,15 @@ namespace VendingMachine.BLL.Service.Classes
 
             string email = session.CustomerDetails?.Email;
 
-                var subject = "Payment Successful";
-               var body = $"Thank u for ur payment , ur payment for product {item.Product.Name}, total amount={item.Product.Price}";
-            
-       
+            var subject = "Payment Successful";
+
+            var body =
+                $"Thank you for your purchase from our Vending Machine! " +
+                $"We appreciate your trust and hope you enjoy your ice cream 🍦. " +
+                $"Your payment for the product \"{item.Product.Name}\" was successful. " +
+                $"Total amount paid: {item.Product.Price} USD.";
+
+
             await _emailSender.SendEmailAsync(email, subject, body);
             return true;
 
@@ -72,8 +77,8 @@ namespace VendingMachine.BLL.Service.Classes
 
                     },
                     Mode = "payment",
-                    SuccessUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/checkout/success?session_id={{CHECKOUT_SESSION_ID}}/{request.transactionId}",
-                    CancelUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/checkout/cancel",
+                    SuccessUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/v1/checkout/success/{{CHECKOUT_SESSION_ID}}/{request.transactionId}",
+                    CancelUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/v1/checkout/cancel",
                 };
                
                     options.LineItems.Add(

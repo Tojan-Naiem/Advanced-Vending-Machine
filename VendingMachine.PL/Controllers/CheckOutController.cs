@@ -22,9 +22,9 @@ namespace VendingMachine.PL.Controllers
             var response = await _checkOutService.ProcessPaymentAsync(request, Request);
             return Ok(response);
         }
-        [HttpGet("success/{transactionId}")]
+        [HttpGet("success/{session_id}/{transactionId}")]
         [AllowAnonymous]
-        public async Task<ActionResult> Success([FromRoute] int transactionId,[FromQuery] string session_id)
+        public async Task<ActionResult> Success(string session_id, [FromRoute] int transactionId)
         {
             var result = _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
 
