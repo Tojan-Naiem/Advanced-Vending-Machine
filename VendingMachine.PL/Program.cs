@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Model;
 using VendingMachine.DAL.Utils;
-using VendingMachine.PL.Utils;
 //using Stripe;
 using VendingMachine.BLL.Services.Classes;
 using VendingMachine.BLL.Services.Interfaces;
@@ -54,7 +53,6 @@ builder.Services.AddIdentity<Users, IdentityRole>(Options =>
 //  Register SeedData
 builder.Services.AddScoped<ISeedData, SeedData>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IEmailSender, EmailSetting>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -86,7 +84,6 @@ var app = builder.Build();
 //  Apply Seeding
 var scope = app.Services.CreateScope();
 var objectOfSeedData = scope.ServiceProvider.GetRequiredService<ISeedData>();
-await objectOfSeedData.DataSeedingAsync();
 await objectOfSeedData.IdentityDataSeedingAsync();
 
 // Configure the HTTP request pipeline.
