@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\VendingMachine.BLL\VendingMachine.BLL.csproj" />
     <ProjectReference Include="..\VendingMachine.DAL\VendingMachine.DAL.csproj" />
-    <ProjectReference Include="..\VendingMachine.DLL\VendingMachine.DLL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
