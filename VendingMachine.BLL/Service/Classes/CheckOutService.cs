@@ -29,27 +29,26 @@ namespace VendingMachine.BLL.Service.Classes
             _emailSender = emailSender;
         }
 
-        //public async Task<bool> HandlePaymentSuccessAsync(int orderId)
-        //{
-        //    var order = await _orderRepository.GetUserByOrderId(orderId);
-        //    var subject = "";
-        //    var body = "";
-        //    if (order.PaymentMethod == PaymentMethod.Visa)
-        //    {
-        //        subject = "Payment Successful";
-        //        body = $"Thank u for ur payment , ur payment for order {orderId}, total amount={order.TotalAmount}";
-        //    }
-        //    else if (order.PaymentMethod == PaymentMethod.Cash)
-        //    {
-        //        subject = "Order Successful";
-        //        body = $"Thank u for ur order , ur order  {orderId}, total amount={order.TotalAmount}";
-        //    }
-        //    else return false;
-        //    await _emailSender.SendEmailAsync(order.User.Email, subject, body);
-        //    return true;
+        public async Task<bool> HandlePaymentSuccessAsync(string session_id,int transactionId)
+        {
+            if (string.IsNullOrEmpty(session_id))
+                return false;
+            var item = await _transactionRepository.GetTransactionAsync(transactionId);
+            if (item is null) return false;
+            var service = new SessionService();
+            var session = service.Get(session_id);
+
+            string email = session.CustomerDetails?.Email;
+
+                var subject = "Payment Successful";
+               var body = $"Thank u for ur payment , ur payment for product {item.Product.Name}, total amount={item.Product.Price}";
+            
+       
+            await _emailSender.SendEmailAsync(email, subject, body);
+            return true;
 
 
-        //}
+        }
 
         public async Task<CheckOutResponse> ProcessPaymentAsync(CheckOutRequest request, HttpRequest httpRequest)
         {
@@ -67,12 +66,13 @@ namespace VendingMachine.BLL.Service.Classes
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string> { "card" },
+                    CustomerEmail = null,
                     LineItems = new List<SessionLineItemOptions>
                     {
 
                     },
                     Mode = "payment",
-                    SuccessUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/checkout/success/{request.transactionId}",
+                    SuccessUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/checkout/success?session_id={{CHECKOUT_SESSION_ID}}/{request.transactionId}",
                     CancelUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/checkout/cancel",
                 };
                
@@ -86,7 +86,7 @@ namespace VendingMachine.BLL.Service.Classes
                                 {
                                     Name = item.Product.Name,
                                 },
-                                UnitAmount = (long)item.Product.Price,
+                                UnitAmount = (long)(item.Product.Price * 100),
                             },
                             Quantity=1
                         }

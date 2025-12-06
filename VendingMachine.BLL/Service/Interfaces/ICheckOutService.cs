@@ -12,6 +12,6 @@ namespace VendingMachine.BLL.Service.Interfaces
     public interface ICheckOutService
     {
         public Task<CheckOutResponse> ProcessPaymentAsync(CheckOutRequest request, HttpRequest httpRequest);
-
+        public Task<bool> HandlePaymentSuccessAsync(string session_id, int transactionId);
     }
 }

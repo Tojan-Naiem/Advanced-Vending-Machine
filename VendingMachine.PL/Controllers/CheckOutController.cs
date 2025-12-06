@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using VendingMachine.DAL.DTO.RequestDTO;
 using VendingMachine.BLL.Service.Classes;
 using VendingMachine.BLL.Service.Interfaces;
+using VendingMachine.DAL.DTO.RequestDTO;
 namespace VendingMachine.PL.Controllers
 {
     [Route("api/v1/[controller]")]
@@ -20,6 +21,16 @@ namespace VendingMachine.PL.Controllers
         {
             var response = await _checkOutService.ProcessPaymentAsync(request, Request);
             return Ok(response);
+        }
+        [HttpGet("success/{transactionId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Success([FromRoute] int transactionId,[FromQuery] string session_id)
+        {
+            var result = _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
+
+
+
+            return Ok("Success");
         }
     }
 }
