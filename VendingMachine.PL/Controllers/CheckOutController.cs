@@ -28,9 +28,13 @@ namespace VendingMachine.PL.Controllers
         {
             var result = _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
 
-
-
             return Ok("Success");
+        }
+        [HttpGet("cancel")]
+        [AllowAnonymous]
+        public ActionResult Cancel()
+        {
+            return Ok("Cancel");
         }
     }
 }
