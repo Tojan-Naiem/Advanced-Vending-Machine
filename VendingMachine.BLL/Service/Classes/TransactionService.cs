@@ -17,16 +17,23 @@ namespace VendingMachine.BLL.Service.Classes
         {
             _transactionRepository = transactionRepository;
         }
-        public async Task<bool> CreateTransactionAsync(TransactionRequest request)
+        public async Task<TransactionResponse> CreateTransactionAsync(TransactionRequest request)
         {
             var newItem = new Transaction()
             {
+               
                 PaymentStatus=PaymentStatus.Pending,
                 ProductId=request.ProductId,
                 CreatedTime=DateTime.Now
             };
              await  _transactionRepository.SaveAsync(newItem);
-            return true;
+            return new TransactionResponse()
+            {
+                Id=newItem.Id,
+                Name=newItem.Product.Name,
+                Price=newItem.Product.Price,
+                CreatedTime=newItem.CreatedTime,
+            };
 
         }
 
@@ -43,10 +50,15 @@ namespace VendingMachine.BLL.Service.Classes
         public async Task<TransactionResponse> GetTransactionAsync(long transactionId)
         {
             var item = await _transactionRepository.GetTransactionAsync(transactionId);
+            if(item is null)
+            {
+             
+            }
             return new TransactionResponse()
             {
+                Id=item!.Id,
                 CreatedTime=item!.CreatedTime,
-                PaymentMethod=item.PaymentStatus,
+                PaymentStatus=item.PaymentStatus,
                 Name=item.Product.Name,
                 Price=item.Product.Price
             };

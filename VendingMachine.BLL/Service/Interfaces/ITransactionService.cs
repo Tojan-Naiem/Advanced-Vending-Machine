@@ -10,7 +10,7 @@ namespace VendingMachine.BLL.Service.Interfaces
 {
     public interface ITransactionService
     {
-        public Task<bool> CreateTransactionAsync(TransactionRequest request);
+        public Task<TransactionResponse> CreateTransactionAsync(TransactionRequest request);
         public Task<bool> DeleteTransactionAsync(long transactionId);
         public Task<TransactionResponse> GetTransactionAsync(long transactionId);
     }
