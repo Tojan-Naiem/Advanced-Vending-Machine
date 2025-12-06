@@ -11,7 +11,7 @@ namespace VendingMachine.DAL.DTO.ResponseDTO
     {
         public string Name { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        public PaymentStatus PaymentMethod { get; set; }
         public DateTime CreatedTime { get; set; }
     }
 }

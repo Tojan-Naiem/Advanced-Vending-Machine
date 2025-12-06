@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine.DAL.Model
 {
-    public enum PaymentMethod
+    public enum PaymentStatus
     {
         Success,
         Pending,
@@ -17,7 +17,7 @@ namespace VendingMachine.DAL.Model
         public long Id { get; set; }
         public long ProductId { get; set; }
         public Product Product { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
         public DateTime CreatedTime { get; set; }
     }
 }

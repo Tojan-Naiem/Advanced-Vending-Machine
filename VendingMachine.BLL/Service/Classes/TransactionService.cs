@@ -21,7 +21,7 @@ namespace VendingMachine.BLL.Service.Classes
         {
             var newItem = new Transaction()
             {
-                PaymentMethod=PaymentMethod.Pending,
+                PaymentMethod=PaymentStatus.Pending,
                 ProductId=request.ProductId,
                 CreatedTime=DateTime.Now
             };
