@@ -46,7 +46,10 @@ namespace VendingMachine.BLL.Service.Classes
                 $"Thank you for your purchase from our Vending Machine! " +
                 $"We appreciate your trust and hope you enjoy your ice cream 🍦. " +
                 $"Your payment for the product \"{item.Product.Name}\" was successful. " +
-                $"Total amount paid: {item.Product.Price} USD.";
+                $"Total amount paid: {item.Product.Price} USD.\n\n" +
+                $"Best regards,\n" +
+                $"Frozen Team\n" +
+                $"Frozen Vending Machine";
 
 
             await _emailSender.SendEmailAsync(email, subject, body);
