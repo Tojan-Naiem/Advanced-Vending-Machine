@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using VendingMachine.BLL.Service.Classes;
 using VendingMachine.BLL.Service.Interfaces;
+using VendingMachine.BLL.StateMachine;
+using VendingMachine.BLL.StateMachine.Observers;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Repository.Classes;
 using VendingMachine.DAL.Repository.Interfaces;
@@ -19,6 +21,10 @@ builder.Services.AddScoped<IFileService,FileService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISeedData, SeedData>();
+builder.Services.AddSingleton<IEventPublisher, EventPublisher>();
+builder.Services.AddScoped<VendingMachineService>();
+
+
 
 // Add services to the container.
 
