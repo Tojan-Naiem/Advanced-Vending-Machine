@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VendingMachine.BLL.Service.Enums;
+using VendingMachine.DAL.Enums;
 using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.StateMachine.States
@@ -12,12 +12,17 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.WaitingForPayment;
 
-        public void HandleEvent(VendingMachineContext context, MachineEvent evt, object? data = null)
+        public void HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
-            if (evt == MachineEvent.PaymentReceived)
+            if (evt == MachineEvent.Payment_Received)
                 context.SetState(new ProcessingPaymentState());
-            else if (evt == MachineEvent.PaymentFailed)
-                context.SetState(new ReturningChangeState());
+            else if (evt == MachineEvent.Payment_Failed)
+                context.SetState(new WaitingForItemSelectionState());
+            else if (evt == MachineEvent.Error_Occurred)
+                context.SetState(new ErrorState());
+            // if there's no event and an error occurred
+            else
+                Console.WriteLine($" Event {evt} ignored in WaitingForPayment state");
         }
     }
 
