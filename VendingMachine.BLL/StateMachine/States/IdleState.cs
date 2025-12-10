@@ -18,6 +18,7 @@ namespace VendingMachine.BLL.StateMachine.States
                 context.SetState(new WaitingForItemSelectionState());
             else if (evt == MachineEvent.Error_Occurred)
                 context.SetState(new ErrorState());
+            // if there's no event and an error occurred
             else
                 Console.WriteLine($" Event {evt} ignored in Idle state");
 

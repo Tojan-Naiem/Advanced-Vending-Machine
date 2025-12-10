@@ -6,16 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine.DAL.Model
 {
-    public enum MachineStateType
-    {
-        Idle,
-        WaitingForQR,
-        WaitingForPayment,
-        ProcessingPayment,
-        DispensingItem,
-        ReturningChange,
-        Error
-    }
+   
     public class VendingMachineState
     {
         public long Id { get; set; }
