@@ -10,7 +10,7 @@ namespace VendingMachine.BLL.StateMachine
     public interface IVendingState
     {
         MachineStateType StateType { get; }
-        void HandleEvent(VendingMachineContext context, MachineEvent evt, object? data = null);
+        void HandleEvent(VendingMachineContext context, MachineEvent evt);
     }
 
 }
