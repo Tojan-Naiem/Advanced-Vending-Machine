@@ -8,6 +8,7 @@ using VendingMachine.BLL.StateMachine;
 using VendingMachine.DAL.Model;
 using Microsoft.EntityFrameworkCore;
 using VendingMachine.DAL.Data;
+using VendingMachine.DAL.Enums;
 
 namespace VendingMachine.BLL.Service.Classes
 {
@@ -23,13 +24,13 @@ namespace VendingMachine.BLL.Service.Classes
 
             _publisher.Subscribe((evt, data) =>
             {
-                Context.TriggerEvent(evt, data);
+                Context.TriggerEvent(evt);
                 dbContext.SaveChanges(); 
             });
         }
         public void Trigger(MachineEvent evt, object? data = null)
         {
-            _publisher.Publish(evt, data);
+            _publisher.Publish(evt,data);
         }
 
         public MachineStateType GetCurrentState()
