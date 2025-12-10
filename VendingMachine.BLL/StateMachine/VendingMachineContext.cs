@@ -15,6 +15,7 @@ namespace VendingMachine.BLL.StateMachine
 
         private readonly long id = 1;
 
+
         public VendingMachineContext(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -40,11 +41,10 @@ namespace VendingMachine.BLL.StateMachine
             type switch
             {
                 MachineStateType.Idle => new IdleState(),
-                MachineStateType.WaitingForQR => new WaitingForQRState(),
+                MachineStateType.Selection => new WaitingForItemSelectionState(),
                 MachineStateType.WaitingForPayment => new WaitingForPaymentState(),
                 MachineStateType.ProcessingPayment => new ProcessingPaymentState(),
                 MachineStateType.DispensingItem => new DispensingItemState(),
-                MachineStateType.ReturningChange => new ReturningChangeState(),
                 _ => new ErrorState()
             };
 
@@ -52,11 +52,11 @@ namespace VendingMachine.BLL.StateMachine
         public MachineStateType GetCurrentStateType() => _currentState.StateType;
 
         // Alias for your service
-        public void TriggerEvent(MachineEvent evt, object? data = null) => Trigger(evt, data);
+        public void TriggerEvent(MachineEvent evt) => Trigger(evt);
 
-        public void Trigger(MachineEvent evt, object? data = null)
+        public void Trigger(MachineEvent evt)
         {
-            _currentState.HandleEvent(this, evt, data);
+            _currentState.HandleEvent(this, evt);
         }
 
         public void SetState(IVendingState newState)
