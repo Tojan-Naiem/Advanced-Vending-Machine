@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using VendingMachine.DAL.Enums;
 using VendingMachine.BLL.StateMachine.States;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Model;
