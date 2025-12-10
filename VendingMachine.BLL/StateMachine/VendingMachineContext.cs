@@ -24,7 +24,6 @@ namespace VendingMachine.BLL.StateMachine
             {
                 entity = new VendingMachineState
                 {
-                    Id = id,
                     CurrentState = MachineStateType.Idle,
                     UpdatedAt = DateTime.Now
                 };

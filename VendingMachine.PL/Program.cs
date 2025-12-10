@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -19,6 +19,35 @@ using VendingMachine.DAL.Utils;
 using VendingMachine.PL.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+// ------------------------------
+//          DATABASE
+// ------------------------------
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+
+    ));
+var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine(connString);
+try
+{
+    using (var testConn = new Microsoft.Data.SqlClient.SqlConnection(connString))
+    {
+        testConn.Open();
+        Console.WriteLine("✅ الاتصال بـ SQL Server ناجح!");
+        Console.WriteLine($"Server: {testConn.DataSource}");
+        Console.WriteLine($"Database: {testConn.Database}");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine("❌ فشل الاتصال بـ SQL Server!");
+    Console.WriteLine(ex.Message);
+    Console.WriteLine("اضغط أي مفتاح للخروج...");
+    Console.ReadKey();
+    return; // يوقف البرنامج لو فشل الاتصال
+}
 
 // ------------------------------
 //        CACHING (Redis)
@@ -32,9 +61,9 @@ builder.Services.AddStackExchangeRedisCache(options =>
 // ------------------------------
 //     Dependency Injection
 // ------------------------------
-builder.Services.AddScoped<IFileService, FileService>(); // Your service
+builder.Services.AddScoped<IFileService, VendingMachine.BLL.Service.Classes.FileService>(); // Your service
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductService, VendingMachine.BLL.Service.Classes.ProductService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 
@@ -54,13 +83,7 @@ builder.Services.AddScoped<ICheckOutService, CheckOutService>(); // From main br
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-// ------------------------------
-//          DATABASE
-// ------------------------------
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Configuration.AddUserSecrets<Program>();
 
 // ------------------------------
 //            IDENTITY

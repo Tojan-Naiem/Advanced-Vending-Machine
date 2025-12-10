@@ -9,13 +9,15 @@ namespace VendingMachine.BLL.StateMachine
 
     public enum MachineEvent
     {
-        InsertQR,
-        PaymentReceived,
-        PaymentFailed,
-        Dispense,
-        DispenseFinished,
-        ReturnChange,
-        Reset
+
+        QR_Scanned,
+        Item_Selected,
+        Cancel,
+        Payment_Received,
+        Payment_Failed,
+        Dispense_Complete,
+        ERROR_OCCURRED
+
     }
 }
 
