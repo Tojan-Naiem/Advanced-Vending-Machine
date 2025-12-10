@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendingMachine.BLL.Service.Enums
+namespace VendingMachine.DAL.Enums
 {
 
     public enum MachineEvent
