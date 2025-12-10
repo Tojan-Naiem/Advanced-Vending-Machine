@@ -12,7 +12,8 @@ namespace VendingMachine.DAL.Enums
         Selection,
         WaitingForPayment,
         ProcessingPayment,
-        DispensingItem,// the final state
+        DispensingItem,
+        TransactionCompleted,// the final state
         Error
     }
 }
