@@ -16,7 +16,7 @@ namespace VendingMachine.BLL.StateMachine
         Payment_Received,
         Payment_Failed,
         Dispense_Complete,
-        ERROR_OCCURRED
+        Error_Occurred
 
     }
 }
