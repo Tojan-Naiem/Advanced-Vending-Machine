@@ -61,11 +61,24 @@ namespace VendingMachine.BLL.StateMachine
 
         public void SetState(IVendingState newState)
         {
+            var oldStateType = _currentState.StateType;
+            var newStateType = newState.StateType;
             _currentState = newState;
 
             var entity = _dbContext.VendingMachineStates.First(x => x.Id == id);
-            entity.CurrentState = newState.StateType;
-            entity.UpdatedAt = DateTime.Now;
+            if (entity != null)
+            {
+                entity.CurrentState = newStateType;
+                entity.UpdatedAt = DateTime.Now;
+            }
+            var log = new MachineStateLog
+            {
+                StateBefore = oldStateType.ToString(),
+                StateAfter = newStateType.ToString(),
+                EventTriggered = "StateTransition", // بتتغير حسب الـ event
+                Timestamp = DateTime.Now,
+            };
+
 
             _dbContext.SaveChanges();
         }
