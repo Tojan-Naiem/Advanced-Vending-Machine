@@ -79,6 +79,7 @@ namespace VendingMachine.BLL.StateMachine
                 Timestamp = DateTime.Now,
             };
 
+            _dbContext.MachineStateLogs.Add(log);
 
             _dbContext.SaveChanges();
         }
