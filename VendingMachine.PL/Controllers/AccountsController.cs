@@ -6,7 +6,8 @@ using VendingMachine.BLL.Service.Interfaces;
 
 namespace VendingMachine.PL.Controllers
 {
-    [Route("api/[Area]/[controller]")]
+
+    [Route("api/v1/[controller]")]
     [ApiController]
     [Area("auth")]
     public class AccountsController : ControllerBase
