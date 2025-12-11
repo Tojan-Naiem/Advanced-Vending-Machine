@@ -1,3 +1,4 @@
+
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,8 @@ using Stripe;
 
 using VendingMachine.BLL.Service.Classes;
 using VendingMachine.BLL.Service.Interfaces;
+using VendingMachine.BLL.StateMachine;
+using VendingMachine.BLL.StateMachine.Observers;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Model;
 using VendingMachine.DAL.Repository.Classes;
@@ -17,6 +20,36 @@ using VendingMachine.DAL.Utils;
 using VendingMachine.PL.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+// ------------------------------
+//          DATABASE
+// ------------------------------
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+
+    ));
+var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine(connString);
+try
+{
+    using (var testConn = new Microsoft.Data.SqlClient.SqlConnection(connString))
+    {
+        testConn.Open();
+        Console.WriteLine("✅ الاتصال بـ SQL Server ناجح!");
+        Console.WriteLine($"Server: {testConn.DataSource}");
+        Console.WriteLine($"Database: {testConn.Database}");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine("❌ فشل الاتصال بـ SQL Server!");
+    Console.WriteLine(ex.Message);
+    Console.WriteLine("اضغط أي مفتاح للخروج...");
+    Console.ReadKey();
+    return; // يوقف البرنامج لو فشل الاتصال
+}
+
 
 // ------------------------------
 //        CACHING (Redis)
@@ -30,13 +63,18 @@ builder.Services.AddStackExchangeRedisCache(options =>
 // ------------------------------
 //     Dependency Injection
 // ------------------------------
-builder.Services.AddScoped<IFileService, FileService>(); // Your service
+builder.Services.AddScoped<IFileService, VendingMachine.BLL.Service.Classes.FileService>(); // Your service
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 builder.Services.AddScoped<ISeedData, SeedData>();
+builder.Services.AddSingleton<IEventPublisher, EventPublisher>();
+builder.Services.AddScoped<VendingMachineService>();
+
+
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>(); // From your branch
 builder.Services.AddScoped<IEmailSender, EmailSender>(); // From main branch
@@ -48,13 +86,7 @@ builder.Services.AddScoped<ICheckOutService, CheckOutService>(); // From main br
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-// ------------------------------
-//          DATABASE
-// ------------------------------
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Configuration.AddUserSecrets<Program>();
 
 // ------------------------------
 //            IDENTITY
@@ -105,6 +137,7 @@ builder.Services.AddControllers();
 
 // OpenAPI (Swagger)
 builder.Services.AddOpenApi();
+
 
 var app = builder.Build();
 

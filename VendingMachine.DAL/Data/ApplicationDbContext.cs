@@ -13,6 +13,7 @@ namespace VendingMachine.DAL.Data
     public class ApplicationDbContext : IdentityDbContext<Users>
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<VendingMachineState> VendingMachineStates { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
@@ -31,5 +32,13 @@ namespace VendingMachine.DAL.Data
             builder.Ignore<IdentityUserToken<string>>();
             builder.Ignore<IdentityRoleClaim<string>>();
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=TOJAN\\SQL2022;Database=advancedVM;Trusted_Connection=True;TrustServerCertificate=True");
+            }
+        }
+
     }
 }
