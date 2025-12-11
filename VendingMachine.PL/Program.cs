@@ -1,5 +1,5 @@
-
 using System.Text;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -66,7 +66,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddScoped<IFileService, VendingMachine.BLL.Service.Classes.FileService>(); // Your service
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductService, VendingMachine.BLL.Service.Classes.ProductService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 

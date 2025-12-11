@@ -93,6 +93,30 @@ namespace VendingMachine.DAL.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("VendingMachine.DAL.Model.Transaction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("VendingMachine.DAL.Model.Users", b =>
                 {
                     b.Property<string>("Id")
@@ -157,6 +181,7 @@ namespace VendingMachine.DAL.Migrations
 
                     b.ToTable("Users", (string)null);
                 });
+
 
             modelBuilder.Entity("VendingMachine.DAL.Model.Users", b =>
                 {
@@ -229,6 +254,7 @@ namespace VendingMachine.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<int>("CurrentState")
@@ -255,44 +281,35 @@ namespace VendingMachine.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-<<<<<<< HEAD
-                    modelBuilder.Entity("VendingMachine.DAL.Model.Transaction", b =>
-                        {
-                            b.Property<long>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("bigint");
+
 
                             SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                            b.Property<DateTime>("CreatedTime")
-                                .HasColumnType("datetime2");
+                    b.Property<int>("CurrentState")
+                        .HasColumnType("int");
 
-                            b.Property<int>("PaymentStatus")
-                                .HasColumnType("int");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                            b.Property<long>("ProductId")
-                                .HasColumnType("bigint");
 
                             b.HasKey("Id");
 
-                            b.HasIndex("ProductId");
-
-                            b.ToTable("Transactions");
-                        });
-
-                    modelBuilder.Entity("VendingMachine.DAL.Model.Transaction", b =>
-                        {
-                            b.HasOne("VendingMachine.DAL.Model.Product", "Product")
-                                .WithMany()
-                                .HasForeignKey("ProductId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b.Navigation("Product");
-                        });
+                    b.ToTable("VendingMachineStates");
                 });
-=======
-                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VendingMachine.DAL.Model.Users", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
             modelBuilder.Entity("VendingMachine.DAL.Model.Transaction", b =>
 
@@ -343,7 +360,6 @@ namespace VendingMachine.DAL.Migrations
                             b.Navigation("Product");
                         });
                 });
->>>>>>> 767c430e2e39ff62bafbeac44c94304a62f19306
         }
     } 
     
