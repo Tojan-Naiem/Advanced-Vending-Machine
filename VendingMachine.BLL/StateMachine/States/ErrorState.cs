@@ -12,10 +12,10 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.Error;
 
-        public void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async void HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
             if (evt == MachineEvent.Error_Reset)
-                context.SetState(new IdleState());
+                await context.SetState(new IdleState());
             else
                 Console.WriteLine($" Event {evt} ignored in ProcessingPaymentState state");
         }

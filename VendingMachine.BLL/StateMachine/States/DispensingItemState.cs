@@ -12,12 +12,12 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.DispensingItem;
 
-        public void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async void HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
             if (evt == MachineEvent.Dispense_Complete)
-                context.SetState(new IdleState());
+                await context.SetState(new IdleState());
             else if (evt == MachineEvent.Error_Occurred)
-                context.SetState(new ErrorState());
+                await context.SetState(new ErrorState());
             // if there's no event and an error occurred
             else
                 Console.WriteLine($" Event {evt} ignored in ProcessingPaymentState state");

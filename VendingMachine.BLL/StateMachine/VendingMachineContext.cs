@@ -5,6 +5,7 @@ using VendingMachine.DAL.Enums;
 using VendingMachine.BLL.StateMachine.States;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Model;
+using System.Threading.Tasks;
 
 namespace VendingMachine.BLL.StateMachine
 {
@@ -59,7 +60,7 @@ namespace VendingMachine.BLL.StateMachine
             _currentState.HandleEvent(this, evt);
         }
 
-        public void SetState(IVendingState newState)
+        public async Task SetState(IVendingState newState)
         {
             var oldStateType = _currentState.StateType;
             var newStateType = newState.StateType;
@@ -79,9 +80,9 @@ namespace VendingMachine.BLL.StateMachine
                 Timestamp = DateTime.Now,
             };
 
-            _dbContext.MachineStateLogs.Add(log);
+           await _dbContext.MachineStateLogs.AddAsync(log);
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
