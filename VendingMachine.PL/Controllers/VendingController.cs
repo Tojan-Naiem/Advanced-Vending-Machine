@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VendingMachine.BLL.Service.Classes;
-using VendingMachine.BLL.StateMachine;
+using VendingMachine.DAL.Enums;
 
 namespace VendingMachine.PL.Controllers
 {

@@ -15,6 +15,7 @@ namespace VendingMachine.DAL.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<VendingMachineState> VendingMachineStates { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<MachineStateLog> MachineStateLogs { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
