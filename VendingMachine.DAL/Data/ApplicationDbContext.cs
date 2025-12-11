@@ -33,13 +33,7 @@ namespace VendingMachine.DAL.Data
             builder.Ignore<IdentityUserToken<string>>();
             builder.Ignore<IdentityRoleClaim<string>>();
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=TOJAN\\SQL2022;Database=advancedVM;Trusted_Connection=True;TrustServerCertificate=True");
-            }
-        }
+      
 
     }
 }

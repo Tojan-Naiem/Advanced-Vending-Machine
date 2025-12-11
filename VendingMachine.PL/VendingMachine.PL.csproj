@@ -30,4 +30,10 @@
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
