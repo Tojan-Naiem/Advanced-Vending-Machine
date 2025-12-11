@@ -32,6 +32,11 @@ namespace VendingMachine.DAL.Data
             builder.Ignore<IdentityUserLogin<string>>();
             builder.Ignore<IdentityUserToken<string>>();
             builder.Ignore<IdentityRoleClaim<string>>();
+            builder.Entity<MachineStateLog>(entity =>
+            {
+                entity.HasIndex(e => e.Timestamp);
+                entity.HasIndex(e => e.Id);
+            });
         }
       
 
