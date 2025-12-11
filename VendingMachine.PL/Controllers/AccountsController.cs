@@ -6,6 +6,10 @@ using VendingMachine.BLL.Service.Interfaces;
 
 namespace VendingMachine.PL.Controllers
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 767c430e2e39ff62bafbeac44c94304a62f19306
     [Route("api/v1/[controller]")]
     [ApiController]
     [Area("auth")]
