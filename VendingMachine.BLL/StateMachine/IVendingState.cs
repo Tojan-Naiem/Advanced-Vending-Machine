@@ -11,7 +11,7 @@ namespace VendingMachine.BLL.StateMachine
     public interface IVendingState
     {
         MachineStateType StateType { get; }
-        void HandleEvent(VendingMachineContext context, MachineEvent evt);
+        public Task HandleEvent(VendingMachineContext context, MachineEvent evt);
     }
 
 }

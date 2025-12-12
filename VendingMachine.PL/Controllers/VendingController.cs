@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VendingMachine.BLL.Service.Classes;
-using VendingMachine.BLL.StateMachine;
+using VendingMachine.DAL.Enums;
 
 namespace VendingMachine.PL.Controllers
 {
@@ -16,16 +16,16 @@ namespace VendingMachine.PL.Controllers
         }
 
         [HttpPost("trigger")]
-        public IActionResult Trigger([FromQuery] MachineEvent evt)
+        public  IActionResult Trigger([FromQuery] MachineEvent evt)
         {
             _service.Trigger(evt); 
             return Ok(new { state = _service.GetCurrentState() });
         }
 
         [HttpGet("state")]
-        public IActionResult GetState()
+        public  IActionResult GetState()
         {
-            return Ok(new { state = _service.GetCurrentState() });
+            return Ok(new { state =  _service.GetCurrentState() });
         }
     }
 }

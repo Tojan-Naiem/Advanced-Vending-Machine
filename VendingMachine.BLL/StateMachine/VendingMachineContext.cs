@@ -5,6 +5,7 @@ using VendingMachine.DAL.Enums;
 using VendingMachine.BLL.StateMachine.States;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Model;
+using System.Threading.Tasks;
 
 namespace VendingMachine.BLL.StateMachine
 {
@@ -12,7 +13,7 @@ namespace VendingMachine.BLL.StateMachine
     {
         private readonly ApplicationDbContext _dbContext;
         private IVendingState _currentState;
-
+        private MachineEvent _lastEvent;
         private readonly long id = 1;
 
 
@@ -52,22 +53,37 @@ namespace VendingMachine.BLL.StateMachine
         public MachineStateType GetCurrentStateType() => _currentState.StateType;
 
         // Alias for your service
-        public void TriggerEvent(MachineEvent evt) => Trigger(evt);
+        public async Task TriggerEvent(MachineEvent evt) => await Trigger(evt);
 
-        public void Trigger(MachineEvent evt)
+        public async Task Trigger(MachineEvent evt)
         {
-            _currentState.HandleEvent(this, evt);
+            _lastEvent = evt;
+            await _currentState.HandleEvent(this, evt);
         }
 
-        public void SetState(IVendingState newState)
+        public async Task SetState(IVendingState newState)
         {
+            var oldStateType = _currentState.StateType;
+            var newStateType = newState.StateType;
             _currentState = newState;
 
-            var entity = _dbContext.VendingMachineStates.First(x => x.Id == id);
-            entity.CurrentState = newState.StateType;
-            entity.UpdatedAt = DateTime.Now;
+            var entity =await _dbContext.VendingMachineStates.FirstAsync(x => x.Id == id);
+            if (entity != null)
+            {
+                entity.CurrentState = newStateType;
+                entity.UpdatedAt = DateTime.Now;
+            }
+            var log = new MachineStateLog
+            {
+                StateBefore = oldStateType.ToString(),
+                StateAfter = newStateType.ToString(),
+                EventTriggered = _lastEvent.ToString(),
+                Timestamp = DateTime.Now,
+            };
 
-            _dbContext.SaveChanges();
+           await _dbContext.MachineStateLogs.AddAsync(log);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

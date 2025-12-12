@@ -12,8 +12,8 @@ using VendingMachine.DAL.Data;
 namespace VendingMachine.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251209222001_inr")]
-    partial class inr
+    [Migration("20251211220622_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,32 @@ namespace VendingMachine.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UsersRoles", (string)null);
+                });
+
+            modelBuilder.Entity("VendingMachine.DAL.Model.MachineStateLog", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("EventTriggered")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateAfter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateBefore")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MachineStateLogs");
                 });
 
             modelBuilder.Entity("VendingMachine.DAL.Model.Product", b =>

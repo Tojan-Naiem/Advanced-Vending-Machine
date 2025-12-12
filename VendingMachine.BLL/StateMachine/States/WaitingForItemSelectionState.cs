@@ -12,13 +12,13 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.Selection;
 
-        public void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
 
             if (evt == MachineEvent.Item_Selected)
-                context.SetState(new WaitingForPaymentState());
+                await context.SetState(new WaitingForPaymentState());
             else if (evt == MachineEvent.Error_Occurred)
-                context.SetState(new ErrorState());
+                await context.SetState(new ErrorState());
             // if there's no event and an error occurred
             else
                 Console.WriteLine($" Event {evt} ignored in WaitingForItemSelection state");

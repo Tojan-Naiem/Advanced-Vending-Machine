@@ -1,31 +1,35 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VendingMachine.BLL.StateMachine.Observers;
 using VendingMachine.BLL.StateMachine;
-using VendingMachine.DAL.Model;
-using Microsoft.EntityFrameworkCore;
+using VendingMachine.BLL.StateMachine.Observers;
 using VendingMachine.DAL.Data;
 using VendingMachine.DAL.Enums;
+using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.Service.Classes
 {
     public class VendingMachineService
     {
-        public VendingMachineContext Context { get; }
+        private readonly IServiceProvider _serviceProvider; 
         private readonly IEventPublisher _publisher;
 
-        public VendingMachineService(ApplicationDbContext dbContext, IEventPublisher publisher)
+        public VendingMachineService(IServiceProvider serviceProvider, IEventPublisher publisher)
         {
+            _serviceProvider = serviceProvider;
             _publisher = publisher;
-            Context = new VendingMachineContext(dbContext);
 
-            _publisher.Subscribe((evt, data) =>
+            _publisher.Subscribe(async (evt, data) =>
             {
-                Context.TriggerEvent(evt);
-                dbContext.SaveChanges(); 
+                using var scope = _serviceProvider.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var context = new VendingMachineContext(dbContext);
+
+                await context.TriggerEvent(evt); 
             });
         }
         public void Trigger(MachineEvent evt, object? data = null)
@@ -33,9 +37,12 @@ namespace VendingMachine.BLL.Service.Classes
             _publisher.Publish(evt,data);
         }
 
-        public MachineStateType GetCurrentState()
+        public  MachineStateType GetCurrentState()
         {
-            return Context.GetCurrentStateType(); 
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var context = new VendingMachineContext(dbContext);
+            return context.GetCurrentStateType();
         }
     }
 }

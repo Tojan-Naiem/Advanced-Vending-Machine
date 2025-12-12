@@ -21,6 +21,9 @@ using VendingMachine.PL.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+Console.WriteLine("Current Directory: " + Directory.GetCurrentDirectory());
+Console.WriteLine("Looking for appsettings.json: " +
+    System.IO.File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json")));
 
 // ------------------------------
 //          DATABASE

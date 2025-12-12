@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VendingMachine.BLL.Service.Enums;
+using VendingMachine.DAL.Enums;
 
 namespace VendingMachine.BLL.StateMachine.Observers
 {

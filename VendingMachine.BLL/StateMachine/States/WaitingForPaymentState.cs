@@ -12,14 +12,14 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.WaitingForPayment;
 
-        public void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
             if (evt == MachineEvent.Payment_Received)
-                context.SetState(new ProcessingPaymentState());
+                await context.SetState(new ProcessingPaymentState());
             else if (evt == MachineEvent.Payment_Failed)
-                context.SetState(new IdleState());
+                await context.SetState(new IdleState());
             else if (evt == MachineEvent.Error_Occurred)
-                context.SetState(new ErrorState());
+                await context.SetState(new ErrorState());
             // if there's no event and an error occurred
             else
                 Console.WriteLine($" Event {evt} ignored in WaitingForPayment state");
