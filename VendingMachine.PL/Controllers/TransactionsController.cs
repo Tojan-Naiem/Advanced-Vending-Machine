@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.DTO.RequestDTO;
+using VendingMachine.DAL.Enums;
 
 namespace VendingMachine.PL.Controllers
 {
@@ -12,13 +13,18 @@ namespace VendingMachine.PL.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
-        public TransactionsController(ITransactionService transactionService)
+        private readonly IVendingMachineService _vmService;
+
+        public TransactionsController(ITransactionService transactionService, IVendingMachineService vmService)
         {
             _transactionService = transactionService;
+            _vmService = vmService;
+
         }
         [HttpPost("")]
         public async Task<IActionResult> Add([FromBody] TransactionRequest request)
         {
+            await _vmService.TriggerAsync(MachineEvent.Item_Selected);
             var result = await _transactionService.CreateTransactionAsync(request);
             return  Ok(result);
         }
