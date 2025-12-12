@@ -16,16 +16,16 @@ namespace VendingMachine.PL.Controllers
         }
 
         [HttpPost("trigger")]
-        public async IActionResult Trigger([FromQuery] MachineEvent evt)
+        public  IActionResult Trigger([FromQuery] MachineEvent evt)
         {
-           await _service.Trigger(evt); 
+            _service.Trigger(evt); 
             return Ok(new { state = _service.GetCurrentState() });
         }
 
         [HttpGet("state")]
-        public async IActionResult GetState()
+        public  IActionResult GetState()
         {
-            return Ok(new { state = await _service.GetCurrentState() });
+            return Ok(new { state =  _service.GetCurrentState() });
         }
     }
 }
