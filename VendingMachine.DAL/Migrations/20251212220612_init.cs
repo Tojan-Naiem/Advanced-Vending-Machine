@@ -143,6 +143,16 @@ namespace VendingMachine.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_MachineStateLogs_Id",
+                table: "MachineStateLogs",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MachineStateLogs_Timestamp",
+                table: "MachineStateLogs",
+                column: "Timestamp");
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",

@@ -16,7 +16,7 @@ namespace VendingMachine.BLL.StateMachine.States
         {
            
             if (evt == MachineEvent.QR_Scanned)
-                await context.SetState(new WaitingForItemSelectionState());
+                await context.SetState(new ItemSelectionState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred

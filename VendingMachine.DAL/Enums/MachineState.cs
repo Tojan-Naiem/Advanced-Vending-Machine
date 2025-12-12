@@ -13,6 +13,7 @@ namespace VendingMachine.DAL.Enums
         PaymentPending,
         PaymentProcessing,
         ProductDispensing, // final state
-        TransactionError
+        TransactionError,
+        Error
     }
 }

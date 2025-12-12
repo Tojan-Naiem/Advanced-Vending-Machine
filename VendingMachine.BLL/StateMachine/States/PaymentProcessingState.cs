@@ -8,7 +8,7 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.StateMachine.States
 {
-    public class PaymentPendingState : IVendingState
+    public class PaymentProcessingState : IVendingState
     {
         public MachineStateType StateType => MachineStateType.PaymentPending;
 

@@ -42,10 +42,10 @@ namespace VendingMachine.BLL.StateMachine
             type switch
             {
                 MachineStateType.Idle => new IdleState(),
-                MachineStateType.Selection => new WaitingForItemSelectionState(),
-                MachineStateType.WaitingForPayment => new WaitingForPaymentState(),
-                MachineStateType.ProcessingPayment => new ProcessingPaymentState(),
-                MachineStateType.DispensingItem => new DispensingItemState(),
+                MachineStateType.ItemSelection => new ItemSelectionState(),
+                MachineStateType.PaymentPending => new PaymentProcessingState(),
+                MachineStateType.PaymentProcessing => new ProcessingPaymentState(),
+                MachineStateType.ProductDispensing => new ProductDispensingState(),
                 _ => new ErrorState()
             };
 

@@ -12,7 +12,7 @@ using VendingMachine.DAL.Data;
 namespace VendingMachine.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251211220622_init")]
+    [Migration("20251212220612_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -89,6 +89,10 @@ namespace VendingMachine.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("Timestamp");
 
                     b.ToTable("MachineStateLogs");
                 });

@@ -18,6 +18,7 @@ namespace VendingMachine.PL.Controllers
         [HttpPost("scan-qr")]
         public async Task<IActionResult> ScanQr([FromBody] ScanRequest request)
         {
+
             await _vmService.TriggerAsync(DAL.Enums.MachineEvent.QR_Scanned);
             return Ok();
         }
