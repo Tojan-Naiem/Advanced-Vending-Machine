@@ -14,6 +14,7 @@ namespace VendingMachine.DAL.Enums
         Item_Selected,
         Cancel,
         Payment_Received,
+        Payment_Approved,
         Payment_Failed,
         Dispense_Complete,
         Error_Reset,
