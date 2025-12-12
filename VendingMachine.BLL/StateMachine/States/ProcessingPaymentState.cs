@@ -10,12 +10,12 @@ namespace VendingMachine.BLL.StateMachine.States
 {
     public class ProcessingPaymentState : IVendingState
     {
-        public MachineStateType StateType => MachineStateType.ProcessingPayment;
+        public MachineStateType StateType => MachineStateType.PaymentProcessing;
 
         public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
             if (evt == MachineEvent.Payment_Confirmed)
-                await context.SetState(new DispensingItemState());
+                await context.SetState(new ProductDispensingState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred

@@ -8,15 +8,15 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.StateMachine.States
 {
-    public class WaitingForItemSelectionState : IVendingState
+    public class ItemSelectionState : IVendingState
     {
-        public MachineStateType StateType => MachineStateType.Selection;
+        public MachineStateType StateType => MachineStateType.ItemSelection;
 
         public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
 
             if (evt == MachineEvent.Item_Selected)
-                await context.SetState(new WaitingForPaymentState());
+                await context.SetState(new PaymentPendingState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred

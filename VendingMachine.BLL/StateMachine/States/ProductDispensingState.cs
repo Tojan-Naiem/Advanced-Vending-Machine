@@ -8,9 +8,9 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.StateMachine.States
 {
-    public class DispensingItemState : IVendingState
+    public class ProductDispensingState : IVendingState
     {
-        public MachineStateType StateType => MachineStateType.DispensingItem;
+        public MachineStateType StateType => MachineStateType.ProductDispensing;
 
         public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
