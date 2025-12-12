@@ -15,7 +15,7 @@ namespace VendingMachine.BLL.Service.Classes
 {
     public class VendingMachineService
     {
-        private readonly IServiceProvider _serviceProvider; // عشان نخلي DbContext جديد لكل عملية
+        private readonly IServiceProvider _serviceProvider; 
         private readonly IEventPublisher _publisher;
 
         public VendingMachineService(IServiceProvider serviceProvider, IEventPublisher publisher)
@@ -29,17 +29,20 @@ namespace VendingMachine.BLL.Service.Classes
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var context = new VendingMachineContext(dbContext);
 
-                context.Trigger(evt); 
+                await context.TriggerEvent(evt); 
             });
         }
-        public Task Trigger(MachineEvent evt, object? data = null)
+        public void Trigger(MachineEvent evt, object? data = null)
         {
             _publisher.Publish(evt,data);
         }
 
-        public async MachineStateType GetCurrentState()
+        public  MachineStateType GetCurrentState()
         {
-            return await Context.GetCurrentStateType(); 
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var context = new VendingMachineContext(dbContext);
+            return context.GetCurrentStateType();
         }
     }
 }
