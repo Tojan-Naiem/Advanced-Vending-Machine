@@ -13,7 +13,7 @@ namespace VendingMachine.BLL.StateMachine
     {
         private readonly ApplicationDbContext _dbContext;
         private IVendingState _currentState;
-
+        private MachineEvent _lastEvent;
         private readonly long id = 1;
 
 
@@ -53,11 +53,12 @@ namespace VendingMachine.BLL.StateMachine
         public MachineStateType GetCurrentStateType() => _currentState.StateType;
 
         // Alias for your service
-        public void TriggerEvent(MachineEvent evt) => Trigger(evt);
+        public async Task TriggerEvent(MachineEvent evt) => await Trigger(evt);
 
-        public void Trigger(MachineEvent evt)
+        public async Task Trigger(MachineEvent evt)
         {
-            _currentState.HandleEvent(this, evt);
+            _lastEvent = evt;
+            await _currentState.HandleEvent(evt, this);
         }
 
         public async Task SetState(IVendingState newState)
@@ -66,7 +67,7 @@ namespace VendingMachine.BLL.StateMachine
             var newStateType = newState.StateType;
             _currentState = newState;
 
-            var entity = _dbContext.VendingMachineStates.First(x => x.Id == id);
+            var entity =await _dbContext.VendingMachineStates.FirstAsync(x => x.Id == id);
             if (entity != null)
             {
                 entity.CurrentState = newStateType;
@@ -76,7 +77,7 @@ namespace VendingMachine.BLL.StateMachine
             {
                 StateBefore = oldStateType.ToString(),
                 StateAfter = newStateType.ToString(),
-                EventTriggered = "StateTransition", // بتتغير حسب الـ event
+                EventTriggered = _lastEvent.ToString(),
                 Timestamp = DateTime.Now,
             };
 

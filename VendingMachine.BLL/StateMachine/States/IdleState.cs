@@ -12,7 +12,7 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.Idle;
 
-        public async void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
            
             if (evt == MachineEvent.QR_Scanned)
@@ -24,6 +24,8 @@ namespace VendingMachine.BLL.StateMachine.States
                 Console.WriteLine($" Event {evt} ignored in Idle state");
 
         }
+
+       
     }
 
 }

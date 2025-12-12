@@ -12,7 +12,7 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.DispensingItem;
 
-        public async void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
             if (evt == MachineEvent.Dispense_Complete)
                 await context.SetState(new IdleState());

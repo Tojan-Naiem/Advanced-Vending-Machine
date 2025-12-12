@@ -12,7 +12,7 @@ namespace VendingMachine.BLL.StateMachine.States
     {
         public MachineStateType StateType => MachineStateType.Error;
 
-        public async void HandleEvent(VendingMachineContext context, MachineEvent evt)
+        public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
             if (evt == MachineEvent.Error_Reset)
                 await context.SetState(new IdleState());
