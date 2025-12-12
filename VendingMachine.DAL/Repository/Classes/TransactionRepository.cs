@@ -35,6 +35,11 @@ namespace VendingMachine.DAL.Repository.Classes
                  .Include(t => t.Product)
                  .FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task<Product?> GetProductAsync(long id)
+        {
+            return await _dbContext.Products
+                 .FirstOrDefaultAsync(t => t.Id == id);
+        }
         public async Task RemoveAsync(Transaction request)
         {
             _dbContext.Transactions.Remove(request);

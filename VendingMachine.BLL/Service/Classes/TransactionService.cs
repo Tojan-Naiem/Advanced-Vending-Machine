@@ -19,6 +19,11 @@ namespace VendingMachine.BLL.Service.Classes
         }
         public async Task<TransactionResponse> CreateTransactionAsync(TransactionRequest request)
         {
+            var product = await _transactionRepository.GetProductAsync(request.ProductId);
+            if (product == null)
+            {
+                throw new Exception("Product not found");
+            }
             var newItem = new Transaction()
             {
                
@@ -30,8 +35,8 @@ namespace VendingMachine.BLL.Service.Classes
             return new TransactionResponse()
             {
                 Id=newItem.Id,
-                Name=newItem.Product.Name,
-                Price=newItem.Product.Price,
+                Name= product.Name,
+                Price= product.Price,
                 CreatedTime=newItem.CreatedTime,
             };
 
