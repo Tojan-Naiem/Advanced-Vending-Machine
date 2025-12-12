@@ -8,7 +8,7 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.StateMachine.States
 {
-    public class ProcessingPaymentState : IVendingState
+    public class PaymentProcessingState : IVendingState
     {
         public MachineStateType StateType => MachineStateType.PaymentProcessing;
 
@@ -16,6 +16,8 @@ namespace VendingMachine.BLL.StateMachine.States
         {
             if (evt == MachineEvent.Payment_Confirmed)
                 await context.SetState(new ProductDispensingState());
+            else if (evt == MachineEvent.Payment_Failed)
+                await context.SetState(new ItemSelectionState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred

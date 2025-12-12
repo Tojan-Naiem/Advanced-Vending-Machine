@@ -43,8 +43,8 @@ namespace VendingMachine.BLL.StateMachine
             {
                 MachineStateType.Idle => new IdleState(),
                 MachineStateType.ItemSelection => new ItemSelectionState(),
-                MachineStateType.PaymentPending => new PaymentProcessingState(),
-                MachineStateType.PaymentProcessing => new ProcessingPaymentState(),
+                MachineStateType.PaymentPending => new PaymentPendingState(),
+                MachineStateType.PaymentProcessing => new PaymentProcessingState(),
                 MachineStateType.ProductDispensing => new ProductDispensingState(),
                 _ => new ErrorState()
             };

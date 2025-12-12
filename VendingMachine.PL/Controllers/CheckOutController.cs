@@ -45,7 +45,7 @@ namespace VendingMachine.PL.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Cancel()
         {
-            await _vmService.TriggerAsync(MachineEvent.Cancel);
+            await _vmService.TriggerAsync(MachineEvent.Payment_Failed);
             return Ok("Cancel");
         }
     }

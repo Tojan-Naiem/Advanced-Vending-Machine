@@ -16,7 +16,7 @@ namespace VendingMachine.BLL.StateMachine.States
         {
 
             if (evt == MachineEvent.Item_Selected||evt==MachineEvent.Payment_Failed)
-                await context.SetState(new PaymentProcessingState());
+                await context.SetState(new PaymentPendingState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred
