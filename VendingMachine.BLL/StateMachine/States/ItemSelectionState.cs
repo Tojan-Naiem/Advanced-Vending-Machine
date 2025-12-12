@@ -8,20 +8,21 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.StateMachine.States
 {
-    public class DispensingItemState : IVendingState
+    public class ItemSelectionState : IVendingState
     {
-        public MachineStateType StateType => MachineStateType.DispensingItem;
+        public MachineStateType StateType => MachineStateType.ItemSelection;
 
         public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
-            if (evt == MachineEvent.Dispense_Complete)
-                await context.SetState(new IdleState());
+
+            if (evt == MachineEvent.Item_Selected||evt==MachineEvent.Payment_Failed)
+                await context.SetState(new PaymentPendingState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred
             else
-                Console.WriteLine($" Event {evt} ignored in ProcessingPaymentState state");
+                Console.WriteLine($" Event {evt} ignored in WaitingForItemSelection state");
+
         }
     }
-
 }

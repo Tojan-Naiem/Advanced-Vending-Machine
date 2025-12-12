@@ -9,10 +9,11 @@ namespace VendingMachine.DAL.Enums
     public enum MachineStateType
     {
         Idle, // the first state
-        Selection,
-        WaitingForPayment,
-        ProcessingPayment,
-        DispensingItem,
+        ItemSelection,
+        PaymentPending,
+        PaymentProcessing,
+        ProductDispensing, // final state
+        TransactionError,
         Error
     }
 }
