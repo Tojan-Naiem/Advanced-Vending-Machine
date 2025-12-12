@@ -43,6 +43,18 @@ namespace VendingMachine.PL.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
-        [HttpGet()]
+        [HttpGet("history")]
+        public IActionResult GetHistory()
+        {
+            try
+            {
+                var logHistory = _service.GetMachineLogHistoryAsync();
+                return Ok(new { state = logHistory });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
     }
 }
