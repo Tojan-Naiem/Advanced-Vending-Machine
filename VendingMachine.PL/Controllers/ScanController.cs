@@ -5,7 +5,7 @@ using VendingMachine.DAL.DTO.RequestDTO;
 
 namespace VendingMachine.PL.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ScanController : ControllerBase
     {
