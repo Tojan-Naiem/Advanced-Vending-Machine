@@ -5,7 +5,7 @@ using VendingMachine.DAL.Enums;
 namespace VendingMachine.PL.Controllers
 {
     [ApiController]
-    [Route("api/vending")]
+    [Route("api/v1/vending")]
     public class VendingController : ControllerBase
     {
         private readonly VendingMachineService _service;
@@ -16,16 +16,45 @@ namespace VendingMachine.PL.Controllers
         }
 
         [HttpPost("trigger")]
-        public  IActionResult Trigger([FromQuery] MachineEvent evt)
+        public async Task<IActionResult> Trigger([FromQuery] MachineEvent evt)
         {
-            _service.Trigger(evt); 
-            return Ok(new { state = _service.GetCurrentState() });
+            try
+            {
+                await _service.Trigger(evt); 
+                var state = _service.GetCurrentState();
+                return Ok(new { state = state.ToString(), message = "Event triggered successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message, stackTrace = ex.StackTrace });
+            }
         }
 
         [HttpGet("state")]
         public  IActionResult GetState()
         {
-            return Ok(new { state =  _service.GetCurrentState() });
+            try
+            {
+                var state = _service.GetCurrentState();
+                return Ok(new { state = state.ToString() });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+        [HttpGet("history")]
+        public IActionResult GetHistory()
+        {
+            try
+            {
+                var logHistory = _service.GetMachineLogHistoryAsync();
+                return Ok(new { state = logHistory });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 }

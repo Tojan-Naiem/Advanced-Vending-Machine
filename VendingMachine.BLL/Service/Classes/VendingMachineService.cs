@@ -17,24 +17,53 @@ namespace VendingMachine.BLL.Service.Classes
     {
         private readonly IServiceProvider _serviceProvider; 
         private readonly IEventPublisher _publisher;
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1); 
 
         public VendingMachineService(IServiceProvider serviceProvider, IEventPublisher publisher)
         {
             _serviceProvider = serviceProvider;
             _publisher = publisher;
 
-            _publisher.Subscribe(async (evt, data) =>
+            _publisher.Subscribe(HandleEventAsync);
+
+
+        }
+        public async void HandleEventAsync(MachineEvent evt, object? data)
+        {
+            await _semaphore.WaitAsync();
+            try
             {
                 using var scope = _serviceProvider.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var context = new VendingMachineContext(dbContext);
 
-                await context.TriggerEvent(evt); 
-            });
+                await context.TriggerEvent(evt);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($" Error handling event {evt}: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
-        public void Trigger(MachineEvent evt, object? data = null)
+        public async Task Trigger(MachineEvent evt, object? data = null)
         {
-            _publisher.Publish(evt,data);
+            await _semaphore.WaitAsync();
+            try
+            {
+                using var scope = _serviceProvider.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var context = new VendingMachineContext(dbContext);
+
+                await context.TriggerEvent(evt);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public  MachineStateType GetCurrentState()
@@ -44,5 +73,17 @@ namespace VendingMachine.BLL.Service.Classes
             var context = new VendingMachineContext(dbContext);
             return context.GetCurrentStateType();
         }
+        public async Task<List<MachineStateLog>> GetMachineLogHistoryAsync()
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var logs = await dbContext.MachineStateLogs
+                                      .OrderByDescending(l => l.Timestamp)
+                                      .ToListAsync();
+
+            return logs;
+        }
+
     }
 }
