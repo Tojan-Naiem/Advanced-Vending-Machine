@@ -14,7 +14,7 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.Service.Classes
 {
-    public class VendingMachineService: IVendingService
+    public class VendingMachineService: IVendingMachineService
     {
         private readonly IServiceProvider _serviceProvider; 
         private readonly IEventPublisher _publisher;
