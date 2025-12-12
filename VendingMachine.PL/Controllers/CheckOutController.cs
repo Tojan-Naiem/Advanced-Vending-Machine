@@ -5,6 +5,7 @@ using System.Security.Claims;
 using VendingMachine.BLL.Service.Classes;
 using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.DTO.RequestDTO;
+using VendingMachine.DAL.Enums;
 namespace VendingMachine.PL.Controllers
 {
     [Route("api/v1/[controller]")]
@@ -12,14 +13,22 @@ namespace VendingMachine.PL.Controllers
     public class CheckOutController : ControllerBase
     {
         private readonly ICheckOutService _checkOutService;
-        public CheckOutController(ICheckOutService checkOutService)
+        private readonly IVendingMachineService _vmService;
+        public CheckOutController(ICheckOutService checkOutService, IVendingMachineService vmService)
         {
             _checkOutService = checkOutService;
+            _vmService = vmService;
         }
         [HttpPost("payment")]
         public async Task<IActionResult> Payment([FromBody] CheckOutRequest request)
         {
+            await _vmService.TriggerAsync(MachineEvent.Payment_Received);
+
             var response = await _checkOutService.ProcessPaymentAsync(request, Request);
+            if (!response.Success)
+            {
+                await _vmService.TriggerAsync(MachineEvent.Payment_Failed);
+            }
             return Ok(response);
         }
         [HttpGet("success/{session_id}/{transactionId}")]
@@ -27,13 +36,16 @@ namespace VendingMachine.PL.Controllers
         public async Task<ActionResult> Success(string session_id, [FromRoute] int transactionId)
         {
             var result = _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
+            await _vmService.TriggerAsync(MachineEvent.Payment_Received);
+            await _vmService.TriggerAsync(MachineEvent.Dispense_Complete);
 
             return Ok("Success");
         }
         [HttpGet("cancel")]
         [AllowAnonymous]
-        public ActionResult Cancel()
+        public async Task<ActionResult> Cancel()
         {
+            await _vmService.TriggerAsync(MachineEvent.Cancel);
             return Ok("Cancel");
         }
     }
