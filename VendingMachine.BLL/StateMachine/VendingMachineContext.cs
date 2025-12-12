@@ -58,7 +58,7 @@ namespace VendingMachine.BLL.StateMachine
         public async Task Trigger(MachineEvent evt)
         {
             _lastEvent = evt;
-            await _currentState.HandleEvent(evt, this);
+            await _currentState.HandleEvent(this, evt);
         }
 
         public async Task SetState(IVendingState newState)
