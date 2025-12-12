@@ -73,5 +73,17 @@ namespace VendingMachine.BLL.Service.Classes
             var context = new VendingMachineContext(dbContext);
             return context.GetCurrentStateType();
         }
+        public async Task<List<MachineStateLog>> GetMachineLogHistoryAsync()
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var logs = await dbContext.MachineStateLogs
+                                      .OrderByDescending(l => l.Timestamp)
+                                      .ToListAsync();
+
+            return logs;
+        }
+
     }
 }
