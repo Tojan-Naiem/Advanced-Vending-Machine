@@ -20,7 +20,7 @@ namespace VendingMachine.PL.Controllers
         {
             try
             {
-                await _service.Trigger(evt); 
+                await _service.TriggerAsync(evt); 
                 var state = _service.GetCurrentState();
                 return Ok(new { state = state.ToString(), message = "Event triggered successfully" });
             }

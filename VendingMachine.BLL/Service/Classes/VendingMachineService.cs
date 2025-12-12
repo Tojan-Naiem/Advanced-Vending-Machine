@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.BLL.StateMachine;
 using VendingMachine.BLL.StateMachine.Observers;
 using VendingMachine.DAL.Data;
@@ -13,7 +14,7 @@ using VendingMachine.DAL.Model;
 
 namespace VendingMachine.BLL.Service.Classes
 {
-    public class VendingMachineService
+    public class VendingMachineService: IVendingService
     {
         private readonly IServiceProvider _serviceProvider; 
         private readonly IEventPublisher _publisher;
@@ -49,7 +50,7 @@ namespace VendingMachine.BLL.Service.Classes
                 _semaphore.Release();
             }
         }
-        public async Task Trigger(MachineEvent evt, object? data = null)
+        public async Task TriggerAsync(MachineEvent evt, object? data = null)
         {
             await _semaphore.WaitAsync();
             try

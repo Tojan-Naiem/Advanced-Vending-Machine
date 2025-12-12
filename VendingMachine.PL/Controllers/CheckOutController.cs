@@ -12,6 +12,7 @@ namespace VendingMachine.PL.Controllers
     public class CheckOutController : ControllerBase
     {
         private readonly ICheckOutService _checkOutService;
+        private readonly VendingMachineService _service
         public CheckOutController(ICheckOutService checkOutService)
         {
             _checkOutService = checkOutService;
