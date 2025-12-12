@@ -22,7 +22,7 @@ namespace VendingMachine.PL.Controllers
         [HttpPost("payment")]
         public async Task<IActionResult> Payment([FromBody] CheckOutRequest request)
         {
-            await _vmService.TriggerAsync(MachineEvent.Payment_Received);
+            await _vmService.TriggerAsync(MachineEvent.Payment_Initiated);
 
             var response = await _checkOutService.ProcessPaymentAsync(request, Request);
             if (!response.Success)
@@ -36,7 +36,7 @@ namespace VendingMachine.PL.Controllers
         public async Task<ActionResult> Success(string session_id, [FromRoute] int transactionId)
         {
             var result = _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
-            await _vmService.TriggerAsync(MachineEvent.Payment_Received);
+            await _vmService.TriggerAsync(MachineEvent.Payment_Confirmed);
             await _vmService.TriggerAsync(MachineEvent.Dispense_Complete);
 
             return Ok("Success");

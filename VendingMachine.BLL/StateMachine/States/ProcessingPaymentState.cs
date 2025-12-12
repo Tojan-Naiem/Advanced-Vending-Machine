@@ -14,7 +14,7 @@ namespace VendingMachine.BLL.StateMachine.States
 
         public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
-            if (evt == MachineEvent.Payment_Received)
+            if (evt == MachineEvent.Payment_Confirmed)
                 await context.SetState(new DispensingItemState());
             else if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new ErrorState());
