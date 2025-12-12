@@ -72,6 +72,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, VendingMachine.BLL.Service.Classes.ProductService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IVendingMachineService, VendingMachineService>();
 
 builder.Services.AddScoped<ISeedData, SeedData>();
 builder.Services.AddSingleton<IEventPublisher, EventPublisher>();
