@@ -16,7 +16,7 @@ namespace VendingMachine.DAL.Enums
         Payment_Confirmed,
         Payment_Failed,
         Dispense_Complete,
-        Error_Reset,
+        Reset,
         Error_Occurred
 
     }

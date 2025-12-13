@@ -17,8 +17,8 @@ namespace VendingMachine.BLL.StateMachine.States
            
             if (evt == MachineEvent.QR_Scanned)
                 await context.SetState(new ItemSelectionState());
-            else if (evt == MachineEvent.Error_Occurred)
-                await context.SetState(new ErrorState());
+            else if (evt == MachineEvent.Reset)
+                await context.SetState(new IdleState());
             // if there's no event and an error occurred
             else
                 Console.WriteLine($" Event {evt} ignored in Idle state");
