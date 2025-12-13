@@ -41,8 +41,7 @@ namespace VendingMachine.BLL.Service.Classes
             if (item is null || item.Product is null) return false;
             var service = new SessionService();
             var session = service.Get(session_id);
-            Product product = item.Product;
-           await  _productRepository.DecreaseProductQuantityAsync(product);
+           await _productRepository.DecreaseProductQuantityAsync(item.Product);
             string email = session.CustomerDetails?.Email;
             if (email is null) return false;
 
