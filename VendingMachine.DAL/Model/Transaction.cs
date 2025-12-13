@@ -16,7 +16,7 @@ namespace VendingMachine.DAL.Model
     {
         public long Id { get; set; }
         public long ProductId { get; set; }
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public DateTime CreatedTime { get; set; }
     }
