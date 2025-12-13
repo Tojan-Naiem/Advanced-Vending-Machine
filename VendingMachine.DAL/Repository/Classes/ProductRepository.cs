@@ -20,7 +20,7 @@ namespace VendingMachine.DAL.Repository.Classes
         {
             _dbContext = dbContext;
         }
-        public async Task DecreaseProductQuantity(Product product)
+        public async Task DecreaseProductQuantityAsync(Product product)
         {
             product.Quantity -= 1;
             await _dbContext.SaveChangesAsync();
