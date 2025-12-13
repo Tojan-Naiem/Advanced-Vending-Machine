@@ -14,5 +14,7 @@ namespace VendingMachine.DAL.Repository.Interfaces
         public Task<Product?> GetProductAsync(long id);
         public Task RemoveAsync(Product product);
         public Task SaveChangesInDatabase();
+        public Task DecreaseProductQuantity(Product product);
+
     }
 }
