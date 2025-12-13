@@ -44,6 +44,7 @@ namespace VendingMachine.BLL.Service.Classes
             Product product = item.Product;
            await  _productRepository.DecreaseProductQuantity(product);
             string email = session.CustomerDetails?.Email;
+            if (email is null) return false;
 
             var subject = "Payment Successful";
 
@@ -74,9 +75,16 @@ namespace VendingMachine.BLL.Service.Classes
                     Message = "No Cart for this user"
                 };
             }
+            if (item.Product is null)
+            {
+                return new CheckOutResponse()
+                {
+                    Success = false,
+                    Message = "No product for this user"
+                };
+            }
 
-            
-                var options = new SessionCreateOptions
+            var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string> { "card" },
                     CustomerEmail = null,
