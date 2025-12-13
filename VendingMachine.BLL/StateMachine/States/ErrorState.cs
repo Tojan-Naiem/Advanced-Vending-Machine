@@ -17,7 +17,7 @@ namespace VendingMachine.BLL.StateMachine.States
             if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new IdleState());
             else
-                Console.WriteLine($" Event {evt} ignored in ProcessingPaymentState state");
+                Console.WriteLine($" Event {evt} ignored in ErrorState");
         }
     }
 

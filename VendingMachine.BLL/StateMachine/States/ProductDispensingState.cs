@@ -20,7 +20,7 @@ namespace VendingMachine.BLL.StateMachine.States
                 await context.SetState(new ErrorState());
             // if there's no event and an error occurred
             else
-                Console.WriteLine($" Event {evt} ignored in ProcessingPaymentState state");
+                Console.WriteLine($" Event {evt} ignored in ProductDispensingState ");
         }
     }
 
