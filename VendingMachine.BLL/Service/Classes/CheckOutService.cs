@@ -20,13 +20,17 @@ namespace VendingMachine.BLL.Service.Classes
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IEmailSender _emailSender;
+        private readonly IProductRepository _productRepository;
+
         public CheckOutService(
             ITransactionRepository transactionRepository,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+             IProductRepository productRepository
             )
         {
             _transactionRepository = transactionRepository;
             _emailSender = emailSender;
+            _productRepository = productRepository;
         }
 
         public async Task<bool> HandlePaymentSuccessAsync(string session_id,int transactionId)
@@ -34,11 +38,12 @@ namespace VendingMachine.BLL.Service.Classes
             if (string.IsNullOrEmpty(session_id))
                 return false;
             var item = await _transactionRepository.GetTransactionAsync(transactionId);
-            if (item is null) return false;
+            if (item is null || item.Product is null) return false;
             var service = new SessionService();
             var session = service.Get(session_id);
-
+           await _productRepository.DecreaseProductQuantityAsync(item.Product);
             string email = session.CustomerDetails?.Email;
+            if (email is null) return false;
 
             var subject = "Payment Successful";
 
@@ -69,9 +74,16 @@ namespace VendingMachine.BLL.Service.Classes
                     Message = "No Cart for this user"
                 };
             }
+            if (item.Product is null)
+            {
+                return new CheckOutResponse()
+                {
+                    Success = false,
+                    Message = "No product for this user"
+                };
+            }
 
-            
-                var options = new SessionCreateOptions
+            var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string> { "card" },
                     CustomerEmail = null,

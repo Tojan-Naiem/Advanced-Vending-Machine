@@ -35,10 +35,13 @@ namespace VendingMachine.PL.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Success(string session_id, [FromRoute] int transactionId)
         {
-            var result = _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
+            var result = await _checkOutService.HandlePaymentSuccessAsync(session_id, transactionId);
             await _vmService.TriggerAsync(MachineEvent.Payment_Confirmed);
             await _vmService.TriggerAsync(MachineEvent.Dispense_Complete);
-
+            if(result is false)
+            {
+                return Ok("Success payment, but there's a problem with email/product");
+            }
             return Ok("Success");
         }
         [HttpGet("cancel")]
