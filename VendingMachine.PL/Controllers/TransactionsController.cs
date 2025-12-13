@@ -24,9 +24,15 @@ namespace VendingMachine.PL.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Add([FromBody] TransactionRequest request)
         {
-            await _vmService.TriggerAsync(MachineEvent.Item_Selected);
             var result = await _transactionService.CreateTransactionAsync(request);
-            return  Ok(result);
+            if(result is not null)
+            {
+                await _vmService.TriggerAsync(MachineEvent.Error_Occurred);
+
+            }
+            else await _vmService.TriggerAsync(MachineEvent.Item_Selected);
+
+            return Ok(result);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] long id)

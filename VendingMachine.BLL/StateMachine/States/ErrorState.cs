@@ -14,7 +14,7 @@ namespace VendingMachine.BLL.StateMachine.States
 
         public async Task HandleEvent(VendingMachineContext context, MachineEvent evt)
         {
-            if (evt == MachineEvent.Error_Reset)
+            if (evt == MachineEvent.Error_Occurred)
                 await context.SetState(new IdleState());
             else
                 Console.WriteLine($" Event {evt} ignored in ProcessingPaymentState state");

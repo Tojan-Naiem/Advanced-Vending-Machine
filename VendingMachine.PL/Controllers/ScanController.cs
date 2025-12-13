@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VendingMachine.BLL.Service.Interfaces;
 using VendingMachine.DAL.DTO.RequestDTO;
+using VendingMachine.DAL.Enums;
 
 namespace VendingMachine.PL.Controllers
 {
@@ -18,8 +19,13 @@ namespace VendingMachine.PL.Controllers
         [HttpPost("scan-qr")]
         public async Task<IActionResult> ScanQr([FromBody] ScanRequest request)
         {
+            if(request is null)
+            {
+                await _vmService.TriggerAsync(MachineEvent.Error_Occurred);
 
-            await _vmService.TriggerAsync(DAL.Enums.MachineEvent.QR_Scanned);
+            }
+            else await _vmService.TriggerAsync(DAL.Enums.MachineEvent.QR_Scanned);
+            
             return Ok();
         }
     }
