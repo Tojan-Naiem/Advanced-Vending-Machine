@@ -502,12 +502,6 @@ POST /api/v1/CheckOut/payment
 
 This project is licensed under the MIT License.
 
-## 👥 Authors
-
-- **Lama Rafat** - Initial work
-- **Nemeh Fayyad** - Contributor
-- **Layal Rafat** - Contributor
-
 ## 🙏 Acknowledgments
 
 - Stripe for payment processing
